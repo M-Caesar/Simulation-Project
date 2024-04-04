@@ -47,5 +47,8 @@
     <ClInclude Include="queueADT.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="queueAsArray.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

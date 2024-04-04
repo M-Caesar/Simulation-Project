@@ -137,6 +137,7 @@
     <ClInclude Include="CustomerQueue.h" />
     <ClInclude Include="CustomerType.h" />
     <ClInclude Include="queueADT.h" />
+    <ClInclude Include="queueAsArray.h" />
     <ClInclude Include="ServerListType.h" />
     <ClInclude Include="ServerType.h" />
   </ItemGroup>
