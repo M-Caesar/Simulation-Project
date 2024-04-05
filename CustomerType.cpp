@@ -161,6 +161,12 @@ void serverListType::updateServ(ostream& outFile)
 
 waitingCustomerQueueType::waitingCustomerQueueType(int size) :queueType<CustomerType>(size)
 {
+
+}
+
+
+void waitingCustomerQueueType::updateWaitQueue()
+{
 	CustomerType customer;
 
 	customer.setWaitTime(-1);

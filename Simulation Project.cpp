@@ -6,7 +6,7 @@
 
 void setSimParams(int sTime, int numServs, int tranTime, int custArrivalTimeInterval);
 
-void runSim();
+void runSim(int sTime);
 
 int main()
 {
@@ -33,12 +33,15 @@ void setSimParams(int sTime, int numServs, int tranTime, int custArrivalTimeInte
     cout << endl;
 
     serverListType servList(numServs);
-    
+    waitingCustomerQueueType waitQueue(100);
 }
 
-void runSim()
+void runSim(int simTime)
 {
-    
+    for (int i = 0, i < simTime, i++)
+    {
+        
+    }
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
