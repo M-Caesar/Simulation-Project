@@ -10,7 +10,9 @@ void runSim(int sTime);
 
 int main()
 {
-    runSim();
+    int sTime;
+    cin >> sTime;
+    runSim(sTime);
     std::cout << "Hello World!\n";
 }
 
