@@ -2,10 +2,43 @@
 //
 
 #include <iostream>
+#include "CustomerType.h"
+
+void setSimParams(int sTime, int numServs, int tranTime, int custArrivalTimeInterval);
+
+void runSim();
 
 int main()
 {
+    runSim();
     std::cout << "Hello World!\n";
+}
+
+void setSimParams(int sTime, int numServs, int tranTime, int custArrivalTimeInterval)
+{
+    cout << "Enter the simulation time: ";
+    cin >> sTime;
+    cout << endl;
+
+    cout << "Enter the number of servers: ";
+    cin >> numServs;
+    cout << endl;
+
+    cout << "Enter the transaction time: ";
+    cin >> tranTime;
+    cout << endl;
+
+    cout << "Enter the time between customer arrivals: ";
+    cin >> custArrivalTimeInterval;
+    cout << endl;
+
+    serverListType servList(numServs);
+    
+}
+
+void runSim()
+{
+    
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
