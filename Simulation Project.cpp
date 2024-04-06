@@ -66,10 +66,8 @@ void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTi
         {
             CustomerType servCust = waitQueue.front();
             overallWaitTime = overallWaitTime + servCust.getWaitTime();
-            //servCust.setCustomerInfo(7, 2, 3, 4);
             int workServID = servList.getFreeServID();
             servList.setServBusy(workServID, servCust);
-            //cout << "----Server: " << workServID << " has started working----" << endl;
             waitQueue.deleteQueue();
         }
     }

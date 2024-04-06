@@ -99,11 +99,12 @@ serverListType::serverListType(int nums)
 {
 	numofServs = nums;
 	servs = new ServerType[nums];
+
+	//for debugging
 	for (int i = 0; i < nums; i++)
 	{
 		cout << "Server " << i << " is free " << servs[i].isFree() << endl;
 		cout << "Server's customer id: " << servs[i].getCurrCustID() << endl;
-		servs[i].setFree();
 	}
 }
 
