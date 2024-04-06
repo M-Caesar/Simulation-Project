@@ -137,7 +137,18 @@ void serverListType::setServBusy(int servID, CustomerType customer, int time)
 	servs[servID].setCurrCust(customer);
 }
 
-void serverListType::updateServ(ostream& outFile)
+void serverListType::setServBusy(int servID, CustomerType customer)
+{
+	int time;
+
+	time = customer.getTranTime();
+
+	servs[servID].setBusy();
+	servs[servID].setTranTime(time);
+	servs[servID].setCurrCust(customer);
+}
+
+void serverListType::updateServ()
 {
 	for (int i = 0; i < numofServs; i++)
 		if (!servs[i].isFree())
@@ -145,7 +156,7 @@ void serverListType::updateServ(ostream& outFile)
 			servs[i].decreaseTranTime();
 			if (servs[i].getRemainingTransTime() == 0)
 			{
-				outFile << "From server number " << (i + 1)
+				cout << "From server number " << (i + 1)
 					<< " customer number"
 					<< servs[i].getCurrCustID()
 					<< "\n		departed at time unit"

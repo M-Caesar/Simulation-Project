@@ -176,6 +176,20 @@ const queueType<Type>& queueType<Type>::operator=
 {
     cout << "Write the definition of the function "
          << "to overload the assignment operator." << endl;
+
+    if (this != otherQueue)
+    {
+        delete[] list;
+        maxQueueSize = otherQueue.maxQueueSize;
+        list = new Type[maxQueueSize];
+        queueFront = otherQueue.queueFront;
+        queueRear = otherQueue.queueRear;
+        for (int i = 0; i < maxQueueSize; ++i)
+        {
+            list[i] = otherQueue.list[i];
+        }
+    }
+    return *this;
 } //end assignment operator
 
 template <class Type>
@@ -183,6 +197,15 @@ queueType<Type>::queueType(const queueType<Type>& otherQueue)
 {
     cout << "Write the definition of the copy constructor."
          << endl;
+
+    maxQueueSize = otherQueue.maxQueueSize;
+    list = new Type[maxQueueSize];
+    queueFront = otherQueue.queueFront;
+    queueRear = otherQueue.queueRear;
+    for (int i = 0; i < maxQueueSize; i++)
+    {
+        list[i] = otherQueue.list[i];   
+    }
 } //end copy constructor
 
 #endif

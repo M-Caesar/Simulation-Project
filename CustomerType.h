@@ -79,7 +79,7 @@ public:
 	void setServBusy(int servID, CustomerType currCustomer,
 					int time);
 	void setServBusy(int servID, CustomerType currCustomer);
-	void updateServ(ostream& outFile);
+	void updateServ();
 
 	/*void addServ();
 	int findServ();

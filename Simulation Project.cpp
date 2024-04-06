@@ -6,13 +6,39 @@
 
 void setSimParams(int sTime, int numServs, int tranTime, int custArrivalTimeInterval);
 
-void runSim(int sTime);
+void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTime);
 
 int main()
 {
     int sTime;
+    int numServs;
+    int tranTime;
+    int custArrivalTimeInterval;
+
+    cout << "Enter the simulation time: ";
     cin >> sTime;
-    runSim(sTime);
+    cout << endl;
+
+    cout << "Enter the number of servers: ";
+    cin >> numServs;
+    cout << endl;
+
+    cout << "Enter the transaction time: ";
+    cin >> tranTime;
+    cout << endl;
+
+    cout << "Enter the time between customer arrivals: ";
+    cin >> custArrivalTimeInterval;
+    cout << endl;
+
+    for (int i = 0; i < numServs; i++)
+    {
+        serverListType servList(numServs);
+    }
+    serverListType servList(numServs);
+    waitingCustomerQueueType waitQueue(100);
+
+    runSim(servList, waitQueue, sTime);
     std::cout << "Hello World!\n";
 }
 
@@ -38,12 +64,24 @@ void setSimParams(int sTime, int numServs, int tranTime, int custArrivalTimeInte
     waitingCustomerQueueType waitQueue(100);
 }
 
-void runSim(int simTime)
+void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTime)
 {
-    for (int i = 0, i < simTime, i++)
+    //string testfile;
+    //ostream& outFile = outFile;
+   // string testfile;
+    cout << "Provide output file" << endl;
+    //cin >> outFile;
+    for (int i = 0; i < sTime; i++)
     {
+        // need to fix this
+        //CustomerType customer;
+        servList.updateServ();
+        waitQueue.updateWaitQueue();
+        //cout << servList.getNumofBusyServ() << endl;
+        //waitQueue.addQueue(customer);
         
     }
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
