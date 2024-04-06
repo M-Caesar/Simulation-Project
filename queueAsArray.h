@@ -174,8 +174,8 @@ template <class Type>
 const queueType<Type>& queueType<Type>::operator=
 	                   (const queueType<Type>& otherQueue)
 {
-    cout << "Write the definition of the function "
-         << "to overload the assignment operator." << endl;
+   // cout << "Write the definition of the function "
+   //      << "to overload the assignment operator." << endl;
 
     if (this != otherQueue)
     {
@@ -195,8 +195,8 @@ const queueType<Type>& queueType<Type>::operator=
 template <class Type>
 queueType<Type>::queueType(const queueType<Type>& otherQueue)
 {
-    cout << "Write the definition of the copy constructor."
-         << endl;
+    //cout << "Write the definition of the copy constructor."
+    //     << endl;
 
     maxQueueSize = otherQueue.maxQueueSize;
     list = new Type[maxQueueSize];

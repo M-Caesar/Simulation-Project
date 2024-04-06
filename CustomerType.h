@@ -70,7 +70,7 @@ class serverListType
 {
 private:
 	int numofServs;
-	ServerType *servs;
+	ServerType* servs;
 public:
 	serverListType(int num = 1);
 	~serverListType();

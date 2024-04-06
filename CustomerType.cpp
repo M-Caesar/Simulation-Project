@@ -99,6 +99,12 @@ serverListType::serverListType(int nums)
 {
 	numofServs = nums;
 	servs = new ServerType[nums];
+	for (int i = 0; i < nums; i++)
+	{
+		cout << "Server " << i << " is free " << servs[i].isFree() << endl;
+		cout << "Server's customer id: " << servs[i].getCurrCustID() << endl;
+		servs[i].setFree();
+	}
 }
 
 serverListType::~serverListType()
@@ -150,16 +156,18 @@ void serverListType::setServBusy(int servID, CustomerType customer)
 
 void serverListType::updateServ()
 {
+	//cout << "The update has been called" << endl;
 	for (int i = 0; i < numofServs; i++)
 		if (!servs[i].isFree())
 		{
+			//cout << "A server is busy" << servs[i].getCurrCustTranTime() << endl;
 			servs[i].decreaseTranTime();
 			if (servs[i].getRemainingTransTime() == 0)
 			{
 				cout << "From server number " << (i + 1)
-					<< " customer number"
+					<< " customer number "
 					<< servs[i].getCurrCustID()
-					<< "\n		departed at time unit"
+					<< "\n		departed at time unit "
 					<< servs[i].getCurrCustArrTime() +
 					servs[i].getCurrCustWaitTime() +
 					servs[i].getCurrCustTranTime() << endl;
@@ -171,9 +179,7 @@ void serverListType::updateServ()
 //waitQueue
 
 waitingCustomerQueueType::waitingCustomerQueueType(int size) :queueType<CustomerType>(size)
-{
-
-}
+{}
 
 
 void waitingCustomerQueueType::updateWaitQueue()

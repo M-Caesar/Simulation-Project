@@ -4,9 +4,9 @@
 #include <iostream>
 #include "CustomerType.h"
 
-void setSimParams(int sTime, int numServs, int tranTime, int custArrivalTimeInterval);
+//void setSimParams(int sTime, int numServs, int tranTime, int custArrivalTimeInterval);
 
-void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTime);
+void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTime, int numServs, int tranTime, int custArrivalTimeInterval);
 
 int main()
 {
@@ -31,45 +31,58 @@ int main()
     cin >> custArrivalTimeInterval;
     cout << endl;
 
-    for (int i = 0; i < numServs; i++)
+    serverListType servList(numServs);
+    waitingCustomerQueueType waitQueue(100);
+    waitQueue.initializeQueue();
+
+    runSim(servList, waitQueue, sTime, numServs,tranTime, custArrivalTimeInterval );
+    //std::cout << "Hello World!\n";
+}
+
+
+
+void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTime, int numServs, int tranTime, int custArrivalTimeInterval)
+{
+    int custTracker = 1;
+    int custServed = 0;
+    double overallWaitTime = 0;
+    int custLeft = 0;
+    int tranComplete = 0;
+    for (int currTime = 0; currTime < sTime; currTime++)
     {
-        serverListType servList(numServs);
+        servList.updateServ();
+        waitQueue.updateWaitQueue();
+        if (currTime % custArrivalTimeInterval == 0)
+        {
+            CustomerType newcustomer;
+            newcustomer.setCustomerInfo(custTracker, currTime, 0, tranTime);
+            waitQueue.addQueue(newcustomer);
+            cout << "Customer number: " << newcustomer.GetCustID() << " arrived at time unit: " << newcustomer.getArrTime() << endl;
+            custTracker++;
+            //cout << "Busy servs number: " << servList.getNumofBusyServ() << endl;
+            //cout << "Free servs number: " << servList.getFreeServID() << endl;
+        }
+        if (servList.getNumofBusyServ() != numServs && waitQueue.isEmptyQueue() == false)
+        {
+            CustomerType servCust = waitQueue.front();
+            overallWaitTime = overallWaitTime + servCust.getWaitTime();
+            //servCust.setCustomerInfo(7, 2, 3, 4);
+            int workServID = servList.getFreeServID();
+            servList.setServBusy(workServID, servCust);
+            //cout << "----Server: " << workServID << " has started working----" << endl;
+            waitQueue.deleteQueue();
+        }
     }
-    serverListType servList(numServs);
-    waitingCustomerQueueType waitQueue(100);
+    cout << "Number of customers that arrived: " << custTracker - 1 << endl;
+    //cout << "Number of customers who completed a transaction: " << tranComplete << endl;
+    cout << "Average wait time for customers in the queue: " << overallWaitTime / custTracker << endl;
+    
 
-    runSim(servList, waitQueue, sTime);
-    std::cout << "Hello World!\n";
-}
-
-void setSimParams(int sTime, int numServs, int tranTime, int custArrivalTimeInterval)
-{
-    cout << "Enter the simulation time: ";
-    cin >> sTime;
-    cout << endl;
-
-    cout << "Enter the number of servers: ";
-    cin >> numServs;
-    cout << endl;
-
-    cout << "Enter the transaction time: ";
-    cin >> tranTime;
-    cout << endl;
-
-    cout << "Enter the time between customer arrivals: ";
-    cin >> custArrivalTimeInterval;
-    cout << endl;
-
-    serverListType servList(numServs);
-    waitingCustomerQueueType waitQueue(100);
-}
-
-void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTime)
-{
+    /*
     //string testfile;
     //ostream& outFile = outFile;
    // string testfile;
-    cout << "Provide output file" << endl;
+    //cout << "Provide output file" << endl;
     //cin >> outFile;
     for (int i = 0; i < sTime; i++)
     {
@@ -79,8 +92,21 @@ void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTi
         waitQueue.updateWaitQueue();
         //cout << servList.getNumofBusyServ() << endl;
         //waitQueue.addQueue(customer);
-        
+        if (i % custArrivalTimeInterval == 0)
+        {
+            CustomerType customer;
+            waitQueue.addQueue(customer);
+        }
+        if (servList.getNumofBusyServ() != numServs && waitQueue.isEmptyQueue() == false)
+        {
+            //servList.getFreeServID();
+            servList.setServBusy(servList.getFreeServID(),waitQueue.front() );
+            waitQueue.deleteQueue();
+        }
+        //servList.updateServ();
+        //waitQueue.updateWaitQueue();
     }
+    */
 
 }
 
