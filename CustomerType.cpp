@@ -101,11 +101,11 @@ serverListType::serverListType(int nums)
 	servs = new ServerType[nums];
 
 	//for debugging
-	for (int i = 0; i < nums; i++)
+	/*for (int i = 0; i < nums; i++)
 	{
 		cout << "Server " << i << " is free " << servs[i].isFree() << endl;
 		cout << "Server's customer id: " << servs[i].getCurrCustID() << endl;
-	}
+	}*/	
 }
 
 serverListType::~serverListType()
@@ -124,8 +124,8 @@ int serverListType::getFreeServID()
 			servID = i;
 			break;
 		}
-		return servID;
 	}
+	return servID;
 }
 
 int serverListType::getNumofBusyServ()
@@ -155,14 +155,16 @@ void serverListType::setServBusy(int servID, CustomerType customer)
 	servs[servID].setCurrCust(customer);
 }
 
-void serverListType::updateServ()
+int serverListType::updateServ()
 {
+	int tran = 0;
 	//cout << "The update has been called" << endl;
 	for (int i = 0; i < numofServs; i++)
 		if (!servs[i].isFree())
 		{
 			//cout << "A server is busy" << servs[i].getCurrCustTranTime() << endl;
 			servs[i].decreaseTranTime();
+			//cout << "Serve number: " << i << "'s has " << servs[i].getRemainingTransTime() << " turns left" << endl;
 			if (servs[i].getRemainingTransTime() == 0)
 			{
 				cout << "From server number " << (i + 1)
@@ -173,8 +175,12 @@ void serverListType::updateServ()
 					servs[i].getCurrCustWaitTime() +
 					servs[i].getCurrCustTranTime() << endl;
 				servs[i].setFree();
+				tran = 1;
 			}
+
+			//return tran;
 		}
+		return tran;
 }
 
 //waitQueue
@@ -201,6 +207,7 @@ void waitingCustomerQueueType::updateWaitQueue()
 		if (wTime == -1)
 			break;
 		customer.incWaitTime();
+		//if (wTime >= 0)
 		addQueue(customer);
 	}
 }

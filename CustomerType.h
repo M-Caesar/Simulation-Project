@@ -3,6 +3,8 @@
 #include <fstream>
 #include <string>
 #include "queueAsArray.h"
+#include <cmath>
+#include <random>
 using namespace std;
 
 class CustomerType
@@ -79,7 +81,7 @@ public:
 	void setServBusy(int servID, CustomerType currCustomer,
 					int time);
 	void setServBusy(int servID, CustomerType currCustomer);
-	void updateServ();
+	int updateServ();
 
 	/*void addServ();
 	int findServ();

@@ -3,9 +3,10 @@
 
 #include <iostream>
 #include "CustomerType.h"
+using namespace std;
 
 //void setSimParams(int sTime, int numServs, int tranTime, int custArrivalTimeInterval);
-
+double PoissonDis(int timeInterval);
 void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTime, int numServs, int tranTime, int custArrivalTimeInterval);
 
 int main()
@@ -32,14 +33,28 @@ int main()
     cout << endl;
 
     serverListType servList(numServs);
-    waitingCustomerQueueType waitQueue(100);
+    waitingCustomerQueueType waitQueue(500);
     waitQueue.initializeQueue();
 
     runSim(servList, waitQueue, sTime, numServs,tranTime, custArrivalTimeInterval );
     //std::cout << "Hello World!\n";
 }
 
+double getRandomNumber()
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_real_distribution<> dis(0.0, 1.0);
+    //cout << "This is the random number: " << dis(gen) << endl;
+    return dis(gen);
+}
 
+double PoissonDis(int timeInterval)
+{
+    double e = exp(-1.0 / timeInterval);
+    //cout << "This is e: " << e << endl;
+    return e;
+}
 
 void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTime, int numServs, int tranTime, int custArrivalTimeInterval)
 {
@@ -50,9 +65,12 @@ void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTi
     int tranComplete = 0;
     for (int currTime = 0; currTime < sTime; currTime++)
     {
-        servList.updateServ();
+        tranComplete = tranComplete + servList.updateServ();
+        //servList.updateServ();
         waitQueue.updateWaitQueue();
-        if (currTime % custArrivalTimeInterval == 0)
+
+        //if (getRandomNumber() > PoissonDis(custArrivalTimeInterval))
+        if (getRandomNumber() > PoissonDis(custArrivalTimeInterval))
         {
             CustomerType newcustomer;
             newcustomer.setCustomerInfo(custTracker, currTime, 0, tranTime);
@@ -62,18 +80,27 @@ void runSim(serverListType servList, waitingCustomerQueueType waitQueue, int sTi
             //cout << "Busy servs number: " << servList.getNumofBusyServ() << endl;
             //cout << "Free servs number: " << servList.getFreeServID() << endl;
         }
-        if (servList.getNumofBusyServ() != numServs && waitQueue.isEmptyQueue() == false)
+        if (servList.getFreeServID() != -1 && waitQueue.isEmptyQueue() == false)
         {
             CustomerType servCust = waitQueue.front();
-            overallWaitTime = overallWaitTime + servCust.getWaitTime();
-            int workServID = servList.getFreeServID();
-            servList.setServBusy(workServID, servCust);
-            waitQueue.deleteQueue();
+            if (servCust.GetCustID() != 0)
+            {
+                int workServID = servList.getFreeServID();
+                servList.setServBusy(workServID, servCust);
+                cout << "Server: " << workServID + 1 << " is helping customer " << servCust.GetCustID() << endl;
+
+                overallWaitTime = overallWaitTime + servCust.getWaitTime();
+                
+                cout << "----Cust " << servCust.GetCustID() << " wait time was " << servCust.getWaitTime() << endl;
+                waitQueue.deleteQueue();
+            }
         }
     }
+    cout << "Number of customers left in the queue: " << (custTracker - 1) - tranComplete << endl;
     cout << "Number of customers that arrived: " << custTracker - 1 << endl;
-    //cout << "Number of customers who completed a transaction: " << tranComplete << endl;
+    cout << "Number of customers who completed a transaction: " << tranComplete << endl;
     cout << "Average wait time for customers in the queue: " << overallWaitTime / custTracker << endl;
+    
     
 
     /*
